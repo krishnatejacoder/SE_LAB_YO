@@ -1,0 +1,14 @@
+bash:
+ ssh-keygen -t ed25519 -C "krishnadar-5@gmail.com"
+
+ powwrshell(admin):
+  Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+  Start-Service ssh-agent
+  ssh-add c:/Users/LENOVO/.ssh/id_ed25519
+
+
+
+  go to  c:/Users/LENOVO/.ssh/id_ed25519  --> Copy wholee thing and go to github
+  go to settings -> new ssh key -> paste there (ssh key)
+  powershell:
+   ssh -T git@github.com
