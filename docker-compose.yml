@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  tomcat-app:
+    build: .
+    container_name: tomcat-app
+    ports:
+      - "9191:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      DB_HOST: mysql-db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: testdb
+
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+    # Change external port to avoid conflict with local MySQL
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql-db
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql_data:
